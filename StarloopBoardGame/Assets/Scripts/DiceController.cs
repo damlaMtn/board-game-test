@@ -17,11 +17,13 @@ public class DiceController : MonoBehaviour
         _diceSides = Resources.LoadAll<Sprite>("Images/DiceSides/");
         _diceSprite = GetComponent<Image>();
         _diceSprite.sprite = _diceSides[0];
+
+        GameObject.Find("Turn").transform.GetComponent<Text>().text = "PLAYER's turn";
     }
 
     public void RollTheDice()
     {
-        if (!isRolling)
+        if (!isRolling && !BoardController.instance.isMoving)
         {
             StartCoroutine("Roll");
         }
@@ -45,13 +47,14 @@ public class DiceController : MonoBehaviour
         if (_playerTurn == 1)
         {
             BoardController.instance.MovePlayer(1);
+            GameObject.Find("Turn").transform.GetComponent<Text>().text = "AI's turn";
         }
         else
         {
             BoardController.instance.MovePlayer(2);
+            GameObject.Find("Turn").transform.GetComponent<Text>().text = "PLAYER's turn";
         }
-
-        _playerTurn *= -1;
         isRolling = false;
+        _playerTurn *= -1;
     }
 }
