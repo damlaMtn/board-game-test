@@ -205,7 +205,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 123691580}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 791841539}
+        m_TargetAssemblyTypeName: DiceController, Assembly-CSharp
+        m_MethodName: RollTheDice
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &123691580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,6 +308,7 @@ MonoBehaviour:
   finishTileMaterial: {fileID: 2100000, guid: 167753495b2d53f47bc7878fe9ba6c4a, type: 2}
   diceValue: 0
   tileOffset: 1.2
+  isMoving: 1
 --- !u!1 &157715008
 GameObject:
   m_ObjectHideFlags: 0
@@ -557,7 +570,7 @@ MonoBehaviour:
       - m_Target: {fileID: 791841539}
         m_TargetAssemblyTypeName: DiceController, Assembly-CSharp
         m_MethodName: RollTheDice
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -616,6 +629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09867e664492fc141a74484e4d1b528a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bonusDice: {fileID: 123691577}
 --- !u!1 &819539937
 GameObject:
   m_ObjectHideFlags: 0
@@ -1046,7 +1060,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
