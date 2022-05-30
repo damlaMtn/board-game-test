@@ -13,6 +13,7 @@ public class BoardController : MonoBehaviour
     public GameObject[] players;
 
     public Material finishTileMaterial;
+    public GameObject finishPanel;
 
     [HideInInspector]
     public int diceValue;
@@ -20,14 +21,16 @@ public class BoardController : MonoBehaviour
     public float tileOffset = 1.2f;
 
     [HideInInspector]
-    public int _turnCount = 0;
+    public int turnCount = 0;
+
+    private int _bonusTurnCount = 5;
 
     private int _width = 9;
     private int _height = 9;
     private List<GameObject> _tiles = new List<GameObject>();
 
     [HideInInspector]
-    public bool isMoving=false;
+    public bool isMoving = false;
 
     [HideInInspector]
     public bool isBonus = false;
@@ -41,6 +44,8 @@ public class BoardController : MonoBehaviour
         instance = this;
 
         isMoving = false;
+
+        finishPanel.SetActive(false);
     }
 
     private void Start()
@@ -64,7 +69,7 @@ public class BoardController : MonoBehaviour
         {
             if (currentPlayer == 1)
             {
-                if (player1.currentTile != _tiles.Count / 2 + 1)
+                if (player1.currentTile != _tiles.Count / 2)
                 {
                     player1.playerPrefab.transform.position = _tiles[player1.currentTile].transform.position;
 
@@ -76,13 +81,15 @@ public class BoardController : MonoBehaviour
                 }
                 else
                 {
-                    GameObject.Find("Dice").GetComponent<Button>().interactable = false;
+                    finishPanel.SetActive(true);
+                    finishPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = player1.playerName + " wins";
+                    yield break;
                 }
             }
 
             else
             {
-                if (player2.currentTile != _tiles.Count / 2 + 1)
+                if (player2.currentTile != _tiles.Count / 2)
                 {
                     player2.playerPrefab.transform.position = _tiles[player2.currentTile].transform.position;
 
@@ -94,7 +101,9 @@ public class BoardController : MonoBehaviour
                 }
                 else
                 {
-                    GameObject.Find("Dice").GetComponent<Button>().interactable = false;
+                    finishPanel.SetActive(true);
+                    finishPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = player2.playerName + " wins";
+                    yield break;
                 }
             }
 
@@ -103,26 +112,36 @@ public class BoardController : MonoBehaviour
 
         isMoving = false;
 
-        _turnCount++;
-        Debug.Log(_turnCount);
-        if(_turnCount == 3)
+        turnCount++;
+
+        if (turnCount == _bonusTurnCount)
         {
-            isBonus = true;
+            ActivateBonus();
         }
 
-        //if (_turnCount != 3)
-        //{
-        //    if (currentPlayer == 1)
-        //    {
-        //        GameObject.Find("Turn").transform.GetComponent<Text>().text = player2.playerName + "'s turn";
-        //        GameObject.Find("Dice").GetComponent<Button>().onClick.Invoke();
-        //    }
-        //    else
-        //    {
-        //        GameObject.Find("Turn").transform.GetComponent<Text>().text = player1.playerName + "'s turn";
-        //    }
-        //}
+        else if (turnCount == _bonusTurnCount + 2)
+        {
+            ActivateBonus();
 
+            GameObject.Find("BonusDice").GetComponent<Button>().onClick.Invoke();
+            turnCount = -1;
+        }
+
+        else
+        {
+            GameObject.Find("Dice").GetComponent<Button>().interactable = true;
+            GameObject.Find("BonusDice").GetComponent<Button>().interactable = false;
+
+            if (currentPlayer == 1)
+            {
+                GameObject.Find("Turn").transform.GetComponent<Text>().text = player2.playerName + "'s turn";
+                GameObject.Find("Dice").GetComponent<Button>().onClick.Invoke();
+            }
+            else
+            {
+                GameObject.Find("Turn").transform.GetComponent<Text>().text = player1.playerName + "'s turn";
+            }
+        }
     }
 
     private void CreateBoard()
@@ -156,5 +175,12 @@ public class BoardController : MonoBehaviour
         player2.playerPrefab.transform.position = _tiles[_tiles.Count - 1].transform.position + new Vector3(tileOffset, 0, 0);
 
         player2.currentTile = _tiles.Count - 1;
+    }
+
+    private void ActivateBonus()
+    {
+        isBonus = true;
+        GameObject.Find("Dice").GetComponent<Button>().interactable = false;
+        GameObject.Find("BonusDice").GetComponent<Button>().interactable = true;
     }
 }

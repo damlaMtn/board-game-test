@@ -34,6 +34,12 @@ public class DiceController : MonoBehaviour
 
     private IEnumerator Roll(int dice) //0 normal dice, 1 bonus dice
     {
+        if (BoardController.instance.isBonus)
+        {
+            _playerTurn *= -1;
+            BoardController.instance.isBonus = false;
+        }
+
         _isRolling = true;
         int randomDiceSide = 0;
 
