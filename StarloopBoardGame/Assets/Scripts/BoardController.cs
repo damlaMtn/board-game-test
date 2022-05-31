@@ -86,6 +86,8 @@ public class BoardController : MonoBehaviour
                 }
                 else
                 {
+                    player1.currentTile++;
+
                     GameObject.Find("Player1Point").transform.GetComponent<Text>().text = player1.playerName + ": " + player1.currentTile.ToString();
 
                     Finish(player1);
@@ -106,6 +108,8 @@ public class BoardController : MonoBehaviour
                 }
                 else
                 {
+                    player2.currentTile--;
+
                     GameObject.Find("Player2Point").transform.GetComponent<Text>().text = player2.playerName + ": " + (_tiles.Count - 1 - player2.currentTile).ToString();
 
                     Finish(player2);
@@ -114,7 +118,7 @@ public class BoardController : MonoBehaviour
                 }
             }
 
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.5f);
         }
 
         isMoving = false;
